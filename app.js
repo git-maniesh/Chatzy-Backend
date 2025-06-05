@@ -48,15 +48,7 @@ cloudinary.config({
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: [
-    "http://localhost:5173",
-    "http://localhost:4173",
-    process.env.CLIENT_URL,
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-  },
+  cors: corsOptions,
 });
 
 app.set("io", io);
@@ -64,15 +56,7 @@ app.set("io", io);
 // Using Middlewares Here
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:4173",
-    process.env.CLIENT_URL,
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
+app.use(cors(corsOptions));
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
